@@ -249,25 +249,29 @@ local function processData(szType, content)
 				result.security = params.encryption --vless security默认none
 			end
 			if params.flow == "xtls-rprx-vision" then
-				result.flow = "1"
+				result.flow = params.flow
+				result.flow_id = "1"
 			elseif params.flow == "xtls-rprx-vision-udp443"
-				result.flow = "2"
+				result.flow = params.flow
+				result.flow_id = "2"
 			else
-				result.flow = "0"
+				result.flow = ""
+				result.flow_id = "0"
 			end
 			if params.security == "tls" or params.security == "1" then --传输层security
 				result.tls = "1"
-				result.tls_host = params.host
 				result.insecure = 0
-				result.flow = "0"
-				result.tls_fp = params.fp
 			elseif params.security == "reality" or params.security == "2" then
 				result.tls = "2"
-				result.tls_host = params.host
 				result.insecure = 0
-				result.tls_fp = params.fp
 			else
 				result.tls = "0"
+			end
+			if params.fp then
+				result.tls_fp = params.fp
+			else
+				result.tls_fp = ""
+				result.tls_fp_id = "0"
 			end
 		else
 			result.server_port = host[2]
