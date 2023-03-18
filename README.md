@@ -6,7 +6,7 @@
 - 默认登陆地址[192.168.2.1](http://192.168.5.1),登录名admin/admin
 - 开启插件`shadowsocks`,`xray-1.8.0`
 ```
-支持xtls-rprx-vison,reality,utls
+支持xtls-rprx-vision,reality,utls
 注意！此版本xray比较吃内存，开启后剩余内存约为30M
 ```
 
