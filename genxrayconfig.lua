@@ -18,7 +18,7 @@ local xray = {
 			port = local_port,
 			protocol = "dokodemo-door",
 			settings = {
-				network = "tcp,udp",
+				network = proto,
 				followRedirect = true
 			},
 			sniffing = {
@@ -113,11 +113,11 @@ local xray = {
 			},
 			tag = "proxy"
 		},
+		-- 额外传出连接
 		{
 			protocol = "freedom",
 			tag = "direct"
 		},
-		-- 额外传出连接
 		{
 			protocol =  "blackhole",
 			tag = "block"
