@@ -9,3 +9,8 @@
 支持xtls-rprx-vison,reality,utls
 注意！此版本xray比较吃内存，开启后剩余内存约为30M
 ```
+
+# 截图
+- [](https://github.com/FishInShallow/Padavan_RM2100/raw/MelsReallyBa/screenshot1.png)
+- [](https://github.com/FishInShallow/Padavan_RM2100/raw/MelsReallyBa/screenshot2.png)
+
