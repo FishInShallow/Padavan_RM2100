@@ -10,7 +10,6 @@ env:
   UPLOAD_RELEASE: true
   TNAME: RM2100
   CONFIG_FILE: RM2100.config
-  DELINK_FILE: dlink.lua
   XRAYCONFIG_FILE: genxrayconfig.lua
   SHADOWSOCKSFILE: Shadowsocks.asp
   XRAY_FILE: xray
@@ -41,7 +40,6 @@ jobs:
     - name: Load custom configuration
       run: |
         mv -f $CONFIG_FILE /opt/rt-n56u/trunk/configs/templates/$TNAME.config
-        mv -f $DELINK_FILE /opt/rt-n56u/trunk/user/shadowsocks/ss/dlink.lua
         mv -f $XRAYCONFIG_FILE /opt/rt-n56u/trunk/user/shadowsocks/ss/genxrayconfig.lua
         mv -f $SHADOWSOCKSFILE /opt/rt-n56u/trunk/user/www/n56u_ribbon_fixed/Shadowsocks.asp
         mv -f $XRAY_FILE /opt/rt-n56u/trunk/user/xray/xray

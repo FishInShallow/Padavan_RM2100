@@ -245,6 +245,8 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 			showhide_div('row_s5_password', 0);
 			showhide_div('row_v2_http_host', 0);
 			showhide_div('row_v2_http_path', 0);
+			showhide_div('row_service_name', 0);
+			showhide_div('row_multi_mode', 0);
 			var b = document.form.ssp_type.value;
 			if (b == "ss") {
 				showhide_div('row_ss_password', 1);
@@ -301,6 +303,8 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 			showhide_div('row_v2_webs_path', 0);
 			showhide_div('v2_kcp_guise', 0);
 			showhide_div('v2_tcp_guise', 0);
+			showhide_div('row_service_name', 0);
+			showhide_div('row_multi_mode', 0);
 			var b = document.form.v2_transport.value;
 			if (b == "tcp") {
 				showhide_div('row_v2_type', 1);
@@ -327,6 +331,9 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 				showhide_div('row_quic_security', 1);
 				showhide_div('row_quic_key', 1);
 				showhide_div('row_quic_header', 1);
+			} else if (b == "grpc") {
+				showhide_div('row_service_name', 1);
+				showhide_div('row_multi_mode', 1);
 			}
 			
 		}
@@ -752,6 +759,9 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 			document.getElementById("v2_quic_key").value = '';
 			document.getElementById("v2_quic_guise").value = 'none';
 			document.getElementById("v2_quic_security").value = 'none';
+			//v2 grpc
+			document.getElementById("service_name").value = '';
+			document.getElementById("multi_mode").value = 'gun';
 			//sock5
 			document.getElementById("s5_password").value = '';
 			document.getElementById("s5_username").value = '';
@@ -1232,35 +1242,44 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 					document.getElementById('v2_h2_host').value = queryParam.host;
 					document.getElementById('v2_h2_path').value = queryParam.path;
 				}
+				if (queryParam.type == "grpc") {
+					document.getElementById('service_name').value = queryParam.serviceName;
+					document.getElementById('multi_mode').value = queryParam.mode;
+				}
 				
 				if (queryParam.flow != undefined) {
 					if(queryParam.flow == 'xtls-rprx-vision'){
-					    	document.getElementById('v2_flow').value = '1';
+						document.getElementById('v2_flow').value = '1';
 					}
 					else if(queryParam.flow == 'xtls-rprx-vision-udp443'){
-					    	document.getElementById('v2_flow').value = '2';
+						document.getElementById('v2_flow').value = '2';
 					}
 					else
 					{
-					    	document.getElementById('v2_flow').value = '0';
+						document.getElementById('v2_flow').value = '0';
 					}
 				}
 				
 				if (queryParam.security != undefined) {
-                                        switch(queryParam.security) {
-                                                case "tls": document.getElementById('v2_tls').value = '1';break;
-                                                case "reality" : document.getElementById('v2_tls').value = '2';break;
-                                        }
+					switch(queryParam.security) {
+						case "tls": document.getElementById('v2_tls').value = '1';break;
+						case "reality" : document.getElementById('v2_tls').value = '2';break;
+					}
 					onTlsChange();
           
-                                        if (queryParam.fp != undefined) {
-	                                        switch(queryParam.fp) {
-                                                        case "chrome": document.getElementById('v2_tls_fp').value = '1';break;
-                                                        case "firefox": document.getElementById('v2_tls_fp').value = '2';break;
-                                                        case "safari": document.getElementById('v2_tls_fp').value = '3';break;
-                                                        case "random": document.getElementById('v2_tls_fp').value = '4';break;
-                                                        case "randomized": document.getElementById('v2_tls_fp').value = '5';break;
-                                                }
+					if (queryParam.fp != undefined) {
+						switch(queryParam.fp) {
+							case "chrome": document.getElementById('v2_tls_fp').value = '1';break;
+							case "firefox": document.getElementById('v2_tls_fp').value = '2';break;
+							case "safari": document.getElementById('v2_tls_fp').value = '3';break;
+							case "ios": document.getElementById('v2_tls_fp').value = '4';break;
+							case "android": document.getElementById('v2_tls_fp').value = '5';break;
+							case "edge": document.getElementById('v2_tls_fp').value = '6';break;
+							case "360": document.getElementById('v2_tls_fp').value = '7';break;
+							case "qq": document.getElementById('v2_tls_fp').value = '8';break;
+							case "random": document.getElementById('v2_tls_fp').value = '9';break;
+							case "randomized": document.getElementById('v2_tls_fp').value = '10';break;
+						}
 					}
           
 					//document.getElementById('v2_tls').checked = true;
@@ -1368,8 +1387,8 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 			} else if (type == "v2ray" || type == "xray") {
 				var http_pathnew = document.getElementById("v2_http_path").value;
 				if (http_pathnew == '') { document.getElementById("v2_http_path").value='/';}
-                                var objFlow = document.getElementById("v2_flow");
-                                var objFp = document.getElementById("v2_tls_fp");
+				var objFlow = document.getElementById("v2_flow");
+				var objFp = document.getElementById("v2_tls_fp");
 				var DataObj = {
 					type: document.getElementById("ssp_type").value,
 					alias: document.getElementById("ssp_name").value,
@@ -1386,7 +1405,7 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 					http_path: document.getElementById("v2_http_path").value,
 					tls: document.getElementById("v2_tls").value,
 					flow: objFlow.options.selectedIndex == 0 ? "" : objFlow.options[objFlow.options.selectedIndex].text,
-                                        tls_fp: objFp.options.selectedIndex == 0 ? "" : objFp.options[objFp.options.selectedIndex].text,
+          tls_fp: objFp.options.selectedIndex == 0 ? "" : objFp.options[objFp.options.selectedIndex].text,
 					flow_id: objFlow.value,
 					tls_fp_id: objFp.value,
 					tls_host: document.getElementById("ssp_tls_host").value,
@@ -1413,6 +1432,9 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 					DataObj.quic_guise = document.getElementById("v2_quic_guise").value;
 					DataObj.quic_key = document.getElementById("v2_quic_key").value;
 					DataObj.quic_security = document.getElementById("v2_quic_security").value;
+				} else if (document.getElementById("v2_transport").value == "grpc") {
+					DataObj.service_name = document.getElementById("service_name").value;
+					DataObj.multi_mode = document.getElementById("multi_mode").value;
 				}
 			} else if (type == "trojan") {
 				var DataObj = {
@@ -2206,6 +2228,7 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 																	<option value="ws">WebSocket</option>
 																	<option value="h2">HTTP/2</option>
 																	<option value="quic">QUIC</option>
+																	<option value="grpc">gRPC</option>
 																</select>
 															</td>
 														</tr>
@@ -2362,6 +2385,24 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 																</select>
 															</td>
 														</tr>
+														<tr id="row_service_name" style="display:none;">
+															<th width="50%">gprc serviceName</th>
+															<td>
+																<input type="text" class="input" size="15"
+																	name="service_name" id="service_name"
+																	style="width: 200px" value="" />
+															</td>
+														</tr>
+														<tr id="row_multi_mode" style="display:none;">
+															<th>grpc模式</th>
+															<td>
+																<select name="multi_mode" id="multi_mode"
+																	class="input" style="width: 200px;">
+																	<option value="gun">gun</option>
+																	<option value="multi">multi</option>
+																</select>
+															</td>
+														</tr>
 														<tr id="row_v2_tls" style="display:none;">
 															<th>传输层安全(tls)</th>
 															<td>
@@ -2379,16 +2420,21 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 																<input type="checkbox" name="ssp_insecure" id="ssp_insecure" >		
 															</td>
 														</tr>
-                                                                                                                <tr id="row_v2_tls_fp" style="display:none;">
+                              <tr id="row_v2_tls_fp" style="display:none;">
 															<th>Fingerprint</th>
 															<td>
 																<select name="v2_tls_fp" id="v2_tls_fp" class="input" style="width: 200px;">
 																	<option value="0">未配置</option>
 																	<option value="1">chrome</option>
-                                                                                                                                        <option value="2">firefox</option>
-                                                                                                                                        <option value="3">safari</option>
-                                                                                                                                        <option value="4">random</option>
-                                                                                                                                        <option value="5">randomized</option>
+																	<option value="2">firefox</option>
+																	<option value="3">safari</option>
+																	<option value="4">ios</option>
+																	<option value="5">android</option>
+																	<option value="6">edge</option>
+																	<option value="7">360</option>
+																	<option value="8">qq</option>
+																	<option value="9">random</option>
+																	<option value="10">randomized</option>
 																</select>
 
 															</td>

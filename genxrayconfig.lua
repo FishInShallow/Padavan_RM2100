@@ -81,6 +81,11 @@ local xray = {
 					spiderX = server.spiderx
 				} or nil,
 
+				grpcSettings = (server.transport == "grpc") and {
+					serviceName = server.service_name,
+					multiMode = (server.multi_mode ~= "gun") and true or false
+				} or nil,
+
 				kcpSettings = (server.transport == "kcp") and {
 					mtu = tonumber(server.mtu),
 					tti = tonumber(server.tti),
