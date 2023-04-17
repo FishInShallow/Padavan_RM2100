@@ -1400,6 +1400,7 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 					vmess_id: document.getElementById("v2_vmess_id").value,
 					alter_id: document.getElementById("v2_alter_id").value,
 					transport: document.getElementById("v2_transport").value,
+					trans_type: document.getElementById("v2_transport").value,
 					tcp_guise: document.getElementById("v2_tcp_guise").value,
 					http_host: document.getElementById("v2_http_host").value,
 					http_path: document.getElementById("v2_http_path").value,
