@@ -62,7 +62,7 @@ local xray = {
 			},
 			-- 底层传输配置
 			streamSettings = {
-				network = server.transport,
+				network = server.trans_type,
 				security = (server.tls == '1') and "tls" or ((server.tls == '2') and "reality" or "none"),
 				tlsSettings = (server.tls == '1') and 
 				{
