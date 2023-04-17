@@ -1230,7 +1230,7 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 				document.getElementById('ssp_type').value = "xray";
 				document.getElementById('ssp_type').dispatchEvent(event);
 				document.getElementById('v2_security').value = queryParam.encryption || "none";
-				document.getElementById('v2_transport').value = queryParam.type || "tcp";
+				document.getElementById('v2_transport').value = queryParam.type == "http" ? "h2" : (queryParam.type || "tcp");
 				document.getElementById('v2_transport').dispatchEvent(event);
 				
 				
