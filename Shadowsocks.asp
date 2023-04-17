@@ -1410,13 +1410,13 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 					coustom: "1",
 				}
 				if (document.getElementById("v2_tls").value == "1") {
-					insecure: document.getElementById("ssp_insecure").value,
-					mux: document.getElementById("v2_mux").value,
+					DataObj.insecure = document.getElementById("ssp_insecure").value;
+					DataObj.mux = document.getElementById("v2_mux").value;
 				}
 				if (document.getElementById("v2_transport").value == "tcp") {
-					tcp_guise: document.getElementById("v2_tcp_guise").value,
-					http_host: document.getElementById("v2_http_host").value,
-					http_path: document.getElementById("v2_http_path").value,
+					DataObj.tcp_guise = document.getElementById("v2_tcp_guise").value;
+					DataObj.http_host = document.getElementById("v2_http_host").value;
+					DataObj.http_path = document.getElementById("v2_http_path").value;
 				}
 				if (document.getElementById("v2_transport").value == "kcp") {
 					DataObj.kcp_guise = document.getElementById("v2_kcp_guise").value;
