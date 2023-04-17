@@ -789,7 +789,7 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 				document.getElementById("ss_obfs").value = getProperty(ss, 'obfs', 'plain');
 				document.getElementById("ss_obfs_param").value = getProperty(ss, 'obfs_param', '');
 			} else if (type == "v2ray" || type == "xray") {
-				var transport = getProperty(ss, 'trans_type', 'tcp');
+				var transport = getProperty(ss, 'transport', 'tcp');
 				document.getElementById("ssp_insecure").value = getProperty(ss, 'insecure', 0);
 				document.getElementById("ssp_insecure").checked =  document.getElementById("ssp_insecure").value != 0;				
 				document.getElementById("v2_mux").value = getProperty(ss, 'mux', 0);
