@@ -2390,7 +2390,7 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 															</td>
 														</tr>
 														<tr id="row_service_name" style="display:none;">
-															<th width="50%">gprc serviceName</th>
+															<th width="50%">gprc 服务名称</th>
 															<td>
 																<input type="text" class="input" size="15"
 																	name="service_name" id="service_name"
@@ -2398,7 +2398,7 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 															</td>
 														</tr>
 														<tr id="row_multi_mode" style="display:none;">
-															<th>grpc模式</th>
+															<th>grpc 模式</th>
 															<td>
 																<select name="multi_mode" id="multi_mode"
 																	class="input" style="width: 200px;">

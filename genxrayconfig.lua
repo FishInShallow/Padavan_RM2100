@@ -106,8 +106,11 @@ local xray = {
 				} or nil,
 				httpSettings = (server.transport == "h2") and (server.tls == '1') and {
 					path = server.h2_path,
-					host = server.h2_host,
-				} or nil,
+					host = server.h2_host
+				} or ((server.transport == "h2") and (server.tls == '2') and {
+					read_idle_timeout = 60,
+					health_check_timeout = 20
+				} or nil),
 				quicSettings = (server.transport == "quic") and {
 					security = server.quic_security,
 					key = server.quic_key,
