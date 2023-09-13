@@ -1230,7 +1230,7 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 				document.getElementById('ssp_type').value = "xray";
 				document.getElementById('ssp_type').dispatchEvent(event);
 				document.getElementById('v2_security').value = queryParam.encryption || "none";
-				document.getElementById('v2_transport').value = queryParam.type || "tcp";
+				document.getElementById('v2_transport').value = queryParam.type == "http" ? "h2" : (queryParam.type || "tcp");
 				document.getElementById('v2_transport').dispatchEvent(event);
 				
 				
@@ -1394,18 +1394,13 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 					alias: document.getElementById("ssp_name").value,
 					server: document.getElementById("ssp_server").value,
 					server_port: document.getElementById("ssp_prot").value,
-					insecure: document.getElementById("ssp_insecure").value,
-					mux: document.getElementById("v2_mux").value,
 					security: document.getElementById("v2_security").value,
 					vmess_id: document.getElementById("v2_vmess_id").value,
 					alter_id: document.getElementById("v2_alter_id").value,
 					transport: document.getElementById("v2_transport").value,
-					tcp_guise: document.getElementById("v2_tcp_guise").value,
-					http_host: document.getElementById("v2_http_host").value,
-					http_path: document.getElementById("v2_http_path").value,
 					tls: document.getElementById("v2_tls").value,
 					flow: objFlow.options.selectedIndex == 0 ? "" : objFlow.options[objFlow.options.selectedIndex].text,
-          tls_fp: objFp.options.selectedIndex == 0 ? "" : objFp.options[objFp.options.selectedIndex].text,
+					tls_fp: objFp.options.selectedIndex == 0 ? "" : objFp.options[objFp.options.selectedIndex].text,
 					flow_id: objFlow.value,
 					tls_fp_id: objFp.value,
 					tls_host: document.getElementById("ssp_tls_host").value,
@@ -1413,6 +1408,15 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 					short_id: document.getElementById("v2_short_id").value,
 					spiderx: document.getElementById("v2_spiderx").value,
 					coustom: "1",
+				}
+				if (document.getElementById("v2_tls").value == "1") {
+					DataObj.insecure = document.getElementById("ssp_insecure").value;
+					DataObj.mux = document.getElementById("v2_mux").value;
+				}
+				if (document.getElementById("v2_transport").value == "tcp") {
+					DataObj.tcp_guise = document.getElementById("v2_tcp_guise").value;
+					DataObj.http_host = document.getElementById("v2_http_host").value;
+					DataObj.http_path = document.getElementById("v2_http_path").value;
 				}
 				if (document.getElementById("v2_transport").value == "kcp") {
 					DataObj.kcp_guise = document.getElementById("v2_kcp_guise").value;
@@ -1425,7 +1429,7 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 				} else if (document.getElementById("v2_transport").value == "ws") {
 					DataObj.ws_host = document.getElementById("v2_ws_host").value;
 					DataObj.ws_path = document.getElementById("v2_ws_path").value;
-				} else if (document.getElementById("v2_transport").value == "h2") {
+				} else if (document.getElementById("v2_transport").value == "h2" && document.getElementById("v2_tls").value == "1") {
 					DataObj.h2_host = document.getElementById("v2_h2_host").value;
 					DataObj.h2_path = document.getElementById("v2_h2_path").value;
 				} else if (document.getElementById("v2_transport").value == "quic") {

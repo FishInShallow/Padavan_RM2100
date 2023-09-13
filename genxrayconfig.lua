@@ -104,7 +104,7 @@ local xray = {
 						Host = server.ws_host
 					} or nil,
 				} or nil,
-				httpSettings = (server.transport == "h2") and {
+				httpSettings = (server.transport == "h2") and (server.tls == '1') and {
 					path = server.h2_path,
 					host = server.h2_host,
 				} or nil,
