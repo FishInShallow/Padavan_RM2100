@@ -71,7 +71,7 @@ jobs:
       id: tag
       if: steps.compile.outputs.status == 'success' && env.UPLOAD_RELEASE == 'true' && !cancelled()
       run: |
-       echo "release_tag=$(date +"%Y.%m.%d-%H%M") test" >> $GITHUB_OUTPUT
+       echo "release_tag=$(date +"%Y.%m.%d-%H%M")-test" >> $GITHUB_OUTPUT
        touch release.txt
        echo "## MeIsReallyBa Padavan-4.4 Release $(date +"%Y.%m.%d-%H:%M")" >> release.txt
        echo "- Source code:" >> release.txt
