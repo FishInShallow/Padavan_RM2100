@@ -321,9 +321,11 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 				showhide_div('row_v2_mkcp_readbu', 1);
 				showhide_div('row_v2_mkcp_writebu', 1);
 				showhide_div('row_v2_mkcp_congestion', 1);
-			} else if (b == "ws") {
+			} else if (b == "ws" || b == "httpupgrade") {
 				showhide_div('row_v2_webs_host', 1);
 				showhide_div('row_v2_webs_path', 1);
+			} else if (b == "xhttp") {
+				showhide_div('row_v2_xhttp_mode', 1);
 			} else if (b == "h2") {
 				showhide_div('row_v2_http2_host', 1);
 				showhide_div('row_v2_http2_path', 1);
@@ -752,6 +754,8 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 			//v2 ws
 			document.getElementById("v2_ws_host").value = '';
 			document.getElementById("v2_ws_path").value = '';
+			//v2 xhttp
+			document.getElementById("v2_xhttp_mode").value = 'auto';
 			//v2 h2
 			document.getElementById("v2_h2_host").value = '';
 			document.getElementById("v2_h2_path").value = '';
@@ -798,6 +802,7 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 				document.getElementById("v2_vmess_id").value = getProperty(ss, 'vmess_id', '');
 				document.getElementById("v2_alter_id").value = getProperty(ss, 'alter_id', '');
 				document.getElementById("v2_transport").value = transport;
+				document.getElementById("v2_xhttp_mode").value = getProperty(ss, 'mode', '');
 				document.getElementById("v2_tcp_guise").value = getProperty(ss, 'tcp_guise', 'none');
 				document.getElementById("v2_http_host").value = getProperty(ss, 'http_host', '');
 				document.getElementById("v2_http_path").value = getProperty(ss, 'http_path', '');
@@ -1404,14 +1409,16 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 					flow_id: objFlow.value,
 					tls_fp_id: objFp.value,
 					tls_host: document.getElementById("ssp_tls_host").value,
-					public_key: document.getElementById("v2_public_key").value,
-					short_id: document.getElementById("v2_short_id").value,
-					spiderx: document.getElementById("v2_spiderx").value,
-					coustom: "1",
+					coustom: "1"
 				}
 				if (document.getElementById("v2_tls").value == "1") {
 					DataObj.insecure = document.getElementById("ssp_insecure").value;
 					DataObj.mux = document.getElementById("v2_mux").value;
+				}
+				if (document.getElementById("v2_tls").value == "2") {
+					DataObj.public_key = document.getElementById("v2_public_key").value;
+					DataObj.short_id = document.getElementById("v2_short_id").value;
+					DataObj.spiderx = document.getElementById("v2_spiderx").value;
 				}
 				if (document.getElementById("v2_transport").value == "tcp") {
 					DataObj.tcp_guise = document.getElementById("v2_tcp_guise").value;
@@ -1426,9 +1433,11 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 					DataObj.downlink_capacity = document.getElementById("v2_downlink_capacity").value;
 					DataObj.read_buffer_size = document.getElementById("v2_read_buffer_size").value;
 					DataObj.write_buffer_size = document.getElementById("v2_write_buffer_size").value;
-				} else if (document.getElementById("v2_transport").value == "ws") {
+				} else if (document.getElementById("v2_transport").value == "ws" || document.getElementById("v2_transport").value == "httpupgrade") {
 					DataObj.ws_host = document.getElementById("v2_ws_host").value;
 					DataObj.ws_path = document.getElementById("v2_ws_path").value;
+				} else if (document.getElementById("v2_transport").value == "xhttp") {
+					DataObj.mode = document.getElementById("v2_xhttp_mode").value;
 				} else if (document.getElementById("v2_transport").value == "h2" && document.getElementById("v2_tls").value == "1") {
 					DataObj.h2_host = document.getElementById("v2_h2_host").value;
 					DataObj.h2_path = document.getElementById("v2_h2_path").value;
@@ -2210,15 +2219,8 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 														<tr id="row_v2_security" style="display:none;">
 															<th width="50%">加密方式(encryption)</th>
 															<td>
-																<select name="v2_security" id="v2_security"
-																	class="input" style="width: 200px;">
-																	<option value="auto">AUTO</option>
-																	<option value="none">NONE</option>
-																	<option value="aes-128-gcm">AES-128-GCM</option>
-																															<option value="zero">ZERO</option>
-																	<option value="chacha20-poly1305">CHACHA20-POLY1305
-																	</option>
-																</select>
+																<input type="text" id="v2_security" name="v2_security" size="15" 
+																	style="width: 200px" value="" />
 															</td>
 														</tr>
 														<tr id="row_v2_net" style="display:none;">
@@ -2230,9 +2232,22 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 																	<option value="tcp">TCP</option>
 																	<option value="kcp">mKCP</option>
 																	<option value="ws">WebSocket</option>
+																	<option value="httpupgrade">HttpUpgrade</option>
+																	<option value="xhttp">XHTTP</option>
 																	<option value="h2">HTTP/2</option>
 																	<option value="quic">QUIC</option>
 																	<option value="grpc">gRPC</option>
+																</select>
+															</td>
+														</tr>
+														<tr id="row_v2_xhttp_mode" style="display:none;">
+															<th width="50%">XHTTP模式</th>
+															<td>
+																<select id="v2_xhttp_mode" name="v2_xhttp_mode">
+																	<option value="auto">Auto</option>
+																	<option value="packet-up">packet-up</option>
+																	<option value="stream-up">stream-up</option>
+																	<option value="stream-one">stream-one</option>
 																</select>
 															</td>
 														</tr>
@@ -2424,7 +2439,7 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 																<input type="checkbox" name="ssp_insecure" id="ssp_insecure" >		
 															</td>
 														</tr>
-                              <tr id="row_v2_tls_fp" style="display:none;">
+                              							<tr id="row_v2_tls_fp" style="display:none;">
 															<th>Fingerprint</th>
 															<td>
 																<select name="v2_tls_fp" id="v2_tls_fp" class="input" style="width: 200px;">

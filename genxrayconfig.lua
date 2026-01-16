@@ -63,6 +63,7 @@ local xray = {
 			-- 底层传输配置
 			streamSettings = {
 				network = server.transport,
+				mode = server.mode,
 				security = (server.tls == '1') and "tls" or ((server.tls == '2') and "reality" or "none"),
 				tlsSettings = (server.tls == '1') and 
 				{
@@ -99,6 +100,12 @@ local xray = {
 					}
 				} or nil,
 				wsSettings = (server.transport == "ws") and (server.ws_path ~= nil or server.ws_host ~= nil) and {
+					path = server.ws_path,
+					headers = (server.ws_host ~= nil) and {
+						Host = server.ws_host
+					} or nil,
+				} or nil,
+				httpupgrade = (server.transport == "httpupgrade") and (server.ws_path ~= nil or server.ws_host ~= nil) and {
 					path = server.ws_path,
 					headers = (server.ws_host ~= nil) and {
 						Host = server.ws_host
