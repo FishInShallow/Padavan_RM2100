@@ -810,7 +810,7 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 				document.getElementById("v2_http_path").value = getProperty(ss, 'http_path', '');
 				document.getElementById("v2_tls").value = getProperty(ss, 'tls', '0');
 				document.getElementById("v2_flow").value = getProperty(ss, 'flow_id', '0');
-                                document.getElementById("v2_tls_fp").value = getProperty(ss, 'tls_fp_id', '0');
+                document.getElementById("v2_tls_fp").value = getProperty(ss, 'tls_fp_id', '0');
 				document.getElementById("v2_public_key").value = getProperty(ss, 'public_key', '');
 				document.getElementById("v2_short_id").value = getProperty(ss, 'short_id', '');
 				document.getElementById("v2_spiderx").value = getProperty(ss, 'spiderx', '');
@@ -1440,6 +1440,8 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 					DataObj.ws_path = document.getElementById("v2_ws_path").value;
 				} else if (document.getElementById("v2_transport").value == "xhttp") {
 					DataObj.mode = document.getElementById("v2_xhttp_mode").value;
+					DataObj.http_host = document.getElementById("v2_http_host").value;
+					DataObj.http_path = document.getElementById("v2_http_path").value;
 				} else if (document.getElementById("v2_transport").value == "h2" && document.getElementById("v2_tls").value == "1") {
 					DataObj.h2_host = document.getElementById("v2_h2_host").value;
 					DataObj.h2_path = document.getElementById("v2_h2_path").value;

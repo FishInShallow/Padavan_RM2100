@@ -76,7 +76,7 @@ local xray = {
 				{
 					host = server.http_host,
 					path = server.http_path,
-					mode = (server.mode ~= nil ) and server.mode or 'auto'
+					mode = (server.mode ~= '' ) and server.mode or 'auto'
 				} or nil,
 
 				realitySettings = (server.tls == '2') and
