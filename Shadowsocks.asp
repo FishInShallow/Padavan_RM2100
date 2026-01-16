@@ -231,7 +231,7 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 			showhide_div('row_v2_security', 0);
 			showhide_div('row_v2_tls', 0);
 			showhide_div('row_v2_flow', 0);
-      showhide_div('row_v2_tls_fp', 0);
+      		showhide_div('row_v2_tls_fp', 0);
 			showhide_div('row_v2_public_key', 0);
 			showhide_div('row_v2_short_id', 0);
 			showhide_div('row_v2_spiderx', 0);
@@ -271,7 +271,7 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 				showhide_div('row_v2_vid', 1);
 				showhide_div('row_v2_security', 1);
 				showhide_div('row_v2_net', 1);
-				showhide_div('row_v2_type', 1);
+				// showhide_div('row_v2_type', 1);
 				showhide_div('row_v2_tls', 1);
 				showhide_div('row_v2_flow', 1);
 				onTlsChange();
@@ -326,6 +326,8 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 				showhide_div('row_v2_webs_path', 1);
 			} else if (b == "xhttp") {
 				showhide_div('row_v2_xhttp_mode', 1);
+				showhide_div('row_v2_http_host', 1);
+				showhide_div('row_v2_http_path', 1);
 			} else if (b == "h2") {
 				showhide_div('row_v2_http2_host', 1);
 				showhide_div('row_v2_http2_path', 1);
@@ -755,7 +757,7 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 			document.getElementById("v2_ws_host").value = '';
 			document.getElementById("v2_ws_path").value = '';
 			//v2 xhttp
-			document.getElementById("v2_xhttp_mode").value = 'auto';
+			document.getElementById("v2_xhttp_mode").value = '';
 			//v2 h2
 			document.getElementById("v2_h2_host").value = '';
 			document.getElementById("v2_h2_path").value = '';
@@ -798,7 +800,7 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 				document.getElementById("ssp_insecure").checked =  document.getElementById("ssp_insecure").value != 0;				
 				document.getElementById("v2_mux").value = getProperty(ss, 'mux', 0);
 				document.getElementById("v2_mux").checked =  document.getElementById("v2_mux").value != 0;
-				document.getElementById("v2_security").value = getProperty(ss, 'security', 'auto');
+				document.getElementById("v2_security").value = getProperty(ss, 'security', '');
 				document.getElementById("v2_vmess_id").value = getProperty(ss, 'vmess_id', '');
 				document.getElementById("v2_alter_id").value = getProperty(ss, 'alter_id', '');
 				document.getElementById("v2_transport").value = transport;
@@ -2244,7 +2246,7 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 															<th width="50%">XHTTP模式</th>
 															<td>
 																<select id="v2_xhttp_mode" name="v2_xhttp_mode">
-																	<option value="auto">Auto</option>
+																	<option value="">auto</option>
 																	<option value="packet-up">packet-up</option>
 																	<option value="stream-up">stream-up</option>
 																	<option value="stream-one">stream-one</option>

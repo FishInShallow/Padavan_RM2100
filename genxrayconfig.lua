@@ -63,13 +63,19 @@ local xray = {
 			-- 底层传输配置
 			streamSettings = {
 				network = server.transport,
-				mode = server.mode,
 				security = (server.tls == '1') and "tls" or ((server.tls == '2') and "reality" or "none"),
 				tlsSettings = (server.tls == '1') and 
 				{
 					show = false,
 					allowInsecure = (server.insecure ~= "0") and true or false,
-					fingerprint = server.tls_fp, serverName=server.tls_host
+					fingerprint = server.tls_fp, 
+					serverName=server.tls_host
+				} or nil,
+
+				xhttpSettings = (server.transport == 'xhttp') and
+				{
+					path = server.http_host,
+					mode = (server.mode ~= nil ) and server.mode or 'auto'
 				} or nil,
 
 				realitySettings = (server.tls == '2') and

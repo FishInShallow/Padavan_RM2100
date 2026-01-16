@@ -25,14 +25,12 @@ jobs:
     - name: UpdatePackages
       uses: awalsh128/cache-apt-pkgs-action@latest
       with:
-        packages: libtool-bin libltdl-dev gperf python3-docutils autopoint gettext zip
+        packages: libtool-bin gperf python3-docutils autopoint gettext zip
         version: 1.0
 
     - name: Prepare environment
       run: |
        sudo rm -rf /etc/apt/sources.list.d/* /usr/share/dotnet /usr/local/lib/android /opt/ghc
-       sudo -E apt-get -qq autoremove --purge
-       sudo -E apt-get -qq clean
        sudo timedatectl set-timezone "Asia/Shanghai"
 
     - name: Clone source
