@@ -20,7 +20,7 @@ jobs:
 
     steps:
     - name: Checkout
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     - name: Prepare environment
       run: |
@@ -61,7 +61,7 @@ jobs:
         echo "FILE_DATE=$(date +"%Y%m%d%H%M")" >> $GITHUB_ENV
 
     - name: Upload firmware directory
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-pages-artifact@v3
       if: steps.compile.outputs.status == 'success' && !cancelled()
       with:
         name: Padavan_firmware_${{ env.TNAME }}_${{ env.FILE_DATE }}
