@@ -22,11 +22,13 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v4
 
-    - name: Prepare environment
-      users: awalsh128/cache-apt-pkgs-action@latest
+    - name: UpdatePackages
+      uses: awalsh128/cache-apt-pkgs-action@latest
       with:
         packages: libtool-bin gperf python3-docutils autopoint gettext zip
         version: 1.0
+
+    - name: Prepare environment
       run: |
        sudo rm -rf /etc/apt/sources.list.d/* /usr/share/dotnet /usr/local/lib/android /opt/ghc
        sudo -E apt-get -qq autoremove --purge
