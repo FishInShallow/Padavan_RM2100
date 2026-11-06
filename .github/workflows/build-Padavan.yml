@@ -25,11 +25,10 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v4
 
-    - name: UpdatePackages
-      uses: awalsh128/cache-apt-pkgs-action@latest
-      with:
-        packages: libtool-bin libltdl-dev gperf python3-docutils autopoint gettext zip liblzma-dev zlib1g-dev liblzo2-dev automake autoconf libtool pkg-config
-        version: 1.0
+    - name: Install build dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y libtool-bin libltdl-dev gperf python3-docutils autopoint gettext zip liblzma-dev zlib1g-dev liblzo2-dev automake autoconf libtool pkg-config
 
     - name: Prepare environment
       run: |
