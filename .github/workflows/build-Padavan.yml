@@ -28,7 +28,7 @@ jobs:
     - name: UpdatePackages
       uses: awalsh128/cache-apt-pkgs-action@latest
       with:
-        packages: libtool-bin libltdl-dev gperf python3-docutils autopoint gettext zip liblzma-dev zlib1g-dev liblzo2-dev
+        packages: libtool-bin libltdl-dev gperf python3-docutils autopoint gettext zip liblzma-dev zlib1g-dev liblzo2-dev automake autoconf libtool pkg-config
         version: 1.0
 
     - name: Prepare environment
