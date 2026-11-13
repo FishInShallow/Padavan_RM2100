@@ -100,6 +100,11 @@
 			showhide_div('row_v2_short_id', 0);
 			showhide_div('row_v2_spiderx', 0);
 			showhide_div('row_tj_tls_host', 0);
+			showhide_div('row_v2_ech_config_list', 0);
+			showhide_div('row_v2_fixed_certificate', 0);
+			showhide_div('row_v2_verify_peer_cert_by_name', 0);
+			showhide_div('row_v2_final_mask', 0);
+			showhide_div('row_v2_alpn', 0);
 			}else if (tlsVal == '1') {
 			showhide_div('row_ssp_insecure', 1);
 			showhide_div('row_tj_tls_host', 1);
@@ -107,14 +112,24 @@
 			showhide_div('row_v2_short_id', 0);
 			showhide_div('row_v2_spiderx', 0);
 			showhide_div('row_v2_public_key', 0);
+			showhide_div('row_v2_ech_config_list', 1);
+			showhide_div('row_v2_fixed_certificate', 1);
+			showhide_div('row_v2_verify_peer_cert_by_name', 1);
+			showhide_div('row_v2_final_mask', 0);
+			showhide_div('row_v2_alpn', 1);
 			}
-			else{		
+			else{
 			showhide_div('row_tj_tls_host', 1);
 			showhide_div('row_v2_tls_fp', 1);
 			showhide_div('row_v2_public_key', 1);
 			showhide_div('row_v2_short_id', 1);
 			showhide_div('row_v2_spiderx', 1);
 			showhide_div('row_ssp_insecure', 0);
+			showhide_div('row_v2_ech_config_list', 0);
+			showhide_div('row_v2_fixed_certificate', 0);
+			showhide_div('row_v2_verify_peer_cert_by_name', 0);
+			showhide_div('row_v2_final_mask', 1);
+			showhide_div('row_v2_alpn', 0);
 			}
 		};
 function ctime() {
@@ -247,6 +262,11 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 			showhide_div('row_v2_http_path', 0);
 			showhide_div('row_service_name', 0);
 			showhide_div('row_multi_mode', 0);
+			showhide_div('row_v2_ech_config_list', 0);
+			showhide_div('row_v2_fixed_certificate', 0);
+			showhide_div('row_v2_verify_peer_cert_by_name', 0);
+			showhide_div('row_v2_final_mask', 0);
+			showhide_div('row_v2_alpn', 0);
 			var b = document.form.ssp_type.value;
 			if (b == "ss") {
 				showhide_div('row_ss_password', 1);
@@ -305,12 +325,10 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 			showhide_div('v2_tcp_guise', 0);
 			showhide_div('row_service_name', 0);
 			showhide_div('row_multi_mode', 0);
+			showhide_div('row_v2_xhttp_mode', 0);
 			var b = document.form.v2_transport.value;
-			if (b == "tcp") {
-				showhide_div('row_v2_type', 1);
-				showhide_div('v2_tcp_guise', 1);
-				showhide_div('row_v2_http_host', 1);
-				showhide_div('row_v2_http_path', 1);
+			if (b == "raw") {
+				// raw TCP - no special settings
 			} else if (b == "kcp") {
 				showhide_div('row_v2_type', 1);
 				showhide_div('v2_kcp_guise', 1);
@@ -328,18 +346,10 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 				showhide_div('row_v2_xhttp_mode', 1);
 				showhide_div('row_v2_http_host', 1);
 				showhide_div('row_v2_http_path', 1);
-			} else if (b == "h2") {
-				showhide_div('row_v2_http2_host', 1);
-				showhide_div('row_v2_http2_path', 1);
-			} else if (b == "quic") {
-				showhide_div('row_quic_security', 1);
-				showhide_div('row_quic_key', 1);
-				showhide_div('row_quic_header', 1);
 			} else if (b == "grpc") {
 				showhide_div('row_service_name', 1);
 				showhide_div('row_multi_mode', 1);
 			}
-			
 		}
 		function switch_dns() {
 			var b = document.form.pdnsd_enable.value;
@@ -730,10 +740,10 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 			document.getElementById("ssp_insecure").checked = false;				
 			document.getElementById("v2_mux").value = 0;
 			document.getElementById("v2_mux").checked = false;
-			document.getElementById("v2_security").value = 'zero';
+			document.getElementById("v2_security").value = 'none';
 			document.getElementById("v2_vmess_id").value = '';
 			document.getElementById("v2_alter_id").value = '';
-			document.getElementById("v2_transport").value = 'tcp';
+			document.getElementById("v2_transport").value = 'raw';
 			document.getElementById("v2_tcp_guise").value = 'none';
 			document.getElementById("v2_tls").value = '0';
 			document.getElementById("v2_flow").value = '0';
@@ -768,6 +778,12 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 			//v2 grpc
 			document.getElementById("service_name").value = '';
 			document.getElementById("multi_mode").value = 'gun';
+			//new features
+			document.getElementById("v2_ech_config_list").value = '';
+			document.getElementById("v2_fixed_certificate").value = '';
+			document.getElementById("v2_verify_peer_cert_by_name").value = '';
+			document.getElementById("v2_final_mask").value = '';
+			document.getElementById("v2_alpn").value = '["h2","http/1.1"]';
 			//sock5
 			document.getElementById("s5_password").value = '';
 			document.getElementById("s5_username").value = '';
@@ -814,6 +830,11 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 				document.getElementById("v2_public_key").value = getProperty(ss, 'public_key', '');
 				document.getElementById("v2_short_id").value = getProperty(ss, 'short_id', '');
 				document.getElementById("v2_spiderx").value = getProperty(ss, 'spiderx', '');
+				document.getElementById("v2_ech_config_list").value = getProperty(ss, 'ech_config_list', '');
+				document.getElementById("v2_fixed_certificate").value = getProperty(ss, 'fixed_certificate', '');
+				document.getElementById("v2_verify_peer_cert_by_name").value = getProperty(ss, 'verify_peer_cert_by_name', '');
+				document.getElementById("v2_final_mask").value = getProperty(ss, 'final_mask', '');
+				document.getElementById("v2_alpn").value = getProperty(ss, 'alpn', '["h2","http/1.1"]');
 				//document.getElementById("v2_tls").checked =  document.getElementById("v2_tls").value != 0;
 				document.getElementById("ssp_tls_host").value = getProperty(ss, 'tls_host', '');
 				if (transport == "kcp") {
@@ -1169,9 +1190,11 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 				document.getElementById('ssp_prot').value = ssm.port;
 				document.getElementById('v2_alter_id').value = ssm.aid;
 				document.getElementById('v2_vmess_id').value = ssm.id;
-				document.getElementById('v2_transport').value = ssm.net;
+				var transportMap = {"tcp": "raw", "kcp": "kcp", "ws": "ws", "httpupgrade": "httpupgrade", "xhttp": "xhttp", "h2": "raw", "quic": "raw", "grpc": "grpc"};
+				document.getElementById('v2_transport').value = transportMap[ssm.net] || "raw";
 				document.getElementById('v2_transport').dispatchEvent(event);
-				if (ssm.net == "tcp") {
+				var newTransport = transportMap[ssm.net] || "raw";
+				if (newTransport == "raw") {
 					if (ssm.type && ssm.type != "http") {
 					ssm.type = "none"
 					}
@@ -1237,7 +1260,8 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 				document.getElementById('ssp_type').value = "xray";
 				document.getElementById('ssp_type').dispatchEvent(event);
 				document.getElementById('v2_security').value = queryParam.encryption || "none";
-				document.getElementById('v2_transport').value = queryParam.type == "http" ? "h2" : (queryParam.type || "tcp");
+				var transportMap = {"tcp": "raw", "kcp": "kcp", "ws": "ws", "httpupgrade": "httpupgrade", "xhttp": "xhttp", "h2": "raw", "quic": "raw", "grpc": "grpc"};
+				document.getElementById('v2_transport').value = transportMap[queryParam.type] || "raw";
 				document.getElementById('v2_transport').dispatchEvent(event);
 				
 				
@@ -1413,21 +1437,21 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 					tls_host: document.getElementById("ssp_tls_host").value,
 					coustom: "1"
 				}
-				if (document.getElementById("v2_tls").value == "1") {
-					DataObj.insecure = document.getElementById("ssp_insecure").value;
-					DataObj.mux = document.getElementById("v2_mux").value;
-				}
-				if (document.getElementById("v2_tls").value == "2") {
-					DataObj.public_key = document.getElementById("v2_public_key").value;
-					DataObj.short_id = document.getElementById("v2_short_id").value;
-					DataObj.spiderx = document.getElementById("v2_spiderx").value;
-				}
-				if (document.getElementById("v2_transport").value == "tcp") {
-					DataObj.tcp_guise = document.getElementById("v2_tcp_guise").value;
-					DataObj.http_host = document.getElementById("v2_http_host").value;
-					DataObj.http_path = document.getElementById("v2_http_path").value;
-				}
-				if (document.getElementById("v2_transport").value == "kcp") {
+					if (document.getElementById("v2_tls").value == "1") {
+						DataObj.insecure = document.getElementById("ssp_insecure").value;
+						DataObj.mux = document.getElementById("v2_mux").value;
+						DataObj.ech_config_list = document.getElementById("v2_ech_config_list").value;
+						DataObj.fixed_certificate = document.getElementById("v2_fixed_certificate").value;
+						DataObj.verify_peer_cert_by_name = document.getElementById("v2_verify_peer_cert_by_name").value;
+						DataObj.alpn = document.getElementById("v2_alpn").value;
+					}
+					if (document.getElementById("v2_tls").value == "2") {
+						DataObj.public_key = document.getElementById("v2_public_key").value;
+						DataObj.short_id = document.getElementById("v2_short_id").value;
+					}
+				if (document.getElementById("v2_transport").value == "raw") {
+					// raw TCP - no special settings
+				} else if (document.getElementById("v2_transport").value == "kcp") {
 					DataObj.kcp_guise = document.getElementById("v2_kcp_guise").value;
 					DataObj.mtu = document.getElementById("v2_mtu").value;
 					DataObj.tti = document.getElementById("v2_tti").value;
@@ -1442,13 +1466,6 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 					DataObj.mode = document.getElementById("v2_xhttp_mode").value;
 					DataObj.http_host = document.getElementById("v2_http_host").value;
 					DataObj.http_path = document.getElementById("v2_http_path").value;
-				} else if (document.getElementById("v2_transport").value == "h2" && document.getElementById("v2_tls").value == "1") {
-					DataObj.h2_host = document.getElementById("v2_h2_host").value;
-					DataObj.h2_path = document.getElementById("v2_h2_path").value;
-				} else if (document.getElementById("v2_transport").value == "quic") {
-					DataObj.quic_guise = document.getElementById("v2_quic_guise").value;
-					DataObj.quic_key = document.getElementById("v2_quic_key").value;
-					DataObj.quic_security = document.getElementById("v2_quic_security").value;
 				} else if (document.getElementById("v2_transport").value == "grpc") {
 					DataObj.service_name = document.getElementById("service_name").value;
 					DataObj.multi_mode = document.getElementById("multi_mode").value;
@@ -2228,20 +2245,17 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 															</td>
 														</tr>
 														<tr id="row_v2_net" style="display:none;">
-															<th width="50%">传输方式</th>
+																<th width="50%">传输协议</th>
 															<td>
 																<select name="v2_transport" id="v2_transport"
 																	class="input" style="width: 200px;"
 																	onchange="switch_v2_type()">
-																	<option value="tcp">TCP</option>
-																	<option value="kcp">mKCP</option>
-																	<option value="ws">WebSocket</option>
-																	<option value="httpupgrade">HttpUpgrade</option>
-																	<option value="xhttp">XHTTP</option>
-																	<option value="h2">HTTP/2</option>
-																	<option value="quic">QUIC</option>
-																	<option value="grpc">gRPC</option>
-																</select>
+																		<option value="raw">raw</option>
+																		<option value="xhttp">XHTTP</option>
+																		<option value="kcp">mKCP</option>
+																		<option value="grpc">gRPC</option>
+																		<option value="ws">WebSocket</option>
+																		<option value="httpupgrade">HttpUpgrade</option>																</select>
 															</td>
 														</tr>
 														<tr id="row_v2_xhttp_mode" style="display:none;">
@@ -2488,6 +2502,43 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 																<input type="text" name="v2_spiderx" id="v2_spiderx" value="">
 															</td>
 														</tr>
+<tr id="row_v2_ech_config_list" style="display:none;">
+                                                                <th>ECH Config List</th>
+                                                                <td>
+                                                                    <textarea name="v2_ech_config_list" id="v2_ech_config_list" class="input" style="width: 200px; height: 60px;"></textarea>
+                                                                </td>
+                                                            </tr>
+                                                            <tr id="row_v2_fixed_certificate" style="display:none;">
+                                                                <th>Pinned Peer Cert SHA256</th>
+                                                                <td>
+                                                                    <input type="text" name="v2_fixed_certificate" id="v2_fixed_certificate" class="input" style="width: 200px" value="">
+                                                                </td>
+                                                            </tr>
+                                                            <tr id="row_v2_verify_peer_cert_by_name" style="display:none;">
+                                                                <th>Verify Peer Cert by Name</th>
+                                                                <td>
+                                                                    <input type="text" name="v2_verify_peer_cert_by_name" id="v2_verify_peer_cert_by_name" class="input" style="width: 200px" value="">
+                                                                </td>
+                                                            </tr>
+                                                            <tr id="row_v2_alpn" style="display:none;">
+                                                                <th>ALPN</th>
+                                                                <td>
+                                                                    <select name="v2_alpn" id="v2_alpn" class="input" style="width: 200px;">
+                                                                        <option value='["h3"]'>h3</option>
+                                                                        <option value='["h2"]'>h2</option>
+                                                                        <option value='["http/1.1"]'>http/1.1</option>
+                                                                        <option value='["h3","h2"]'>h3, h2</option>
+                                                                        <option value='["h2","http/1.1"]' selected>h2, http/1.1</option>
+                                                                        <option value='["h3","h2","http/1.1"]'>h3, h2, http/1.1</option>
+                                                                    </select>
+                                                                </td>
+                                                            </tr>
+                                                            <tr id="row_v2_final_mask" style="display:none;">
+                                                                <th>Final Mask</th>
+                                                                <td>
+                                                                    <input type="text" name="v2_final_mask" id="v2_final_mask" value="">
+                                                                </td>
+                                                            </tr>
 														<tr id="row_v2_mux" style="display:none;">
 															<th>MUX</th>
 															<td>

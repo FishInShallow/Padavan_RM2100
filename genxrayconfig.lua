@@ -54,7 +54,7 @@ local xray = {
 								id = server.vmess_id,
 								flow = server.flow,
 								level = tonumber(server.alter_id),
-								encryption = server.security
+								encryption = (server.security ~= '') and server.security or "none"
 							}
 						}
 					}
@@ -64,12 +64,16 @@ local xray = {
 			streamSettings = {
 				network = server.transport,
 				security = (server.tls == '1') and "tls" or ((server.tls == '2') and "reality" or "none"),
-				tlsSettings = (server.tls == '1') and 
+				tlsSettings = (server.tls == '1') and
 				{
 					show = false,
 					allowInsecure = (server.insecure ~= "0") and true or false,
-					fingerprint = server.tls_fp, 
-					serverName=server.tls_host
+					fingerprint = server.tls_fp,
+					serverName = server.tls_host,
+					echConfigList = server.ech_config_list,
+					pinnedPeerCertSha256 = server.fixed_certificate,
+					verifyPeerCertByName = server.verify_peer_cert_by_name,
+					alpn = (server.alpn and server.alpn ~= "") and cjson.decode(server.alpn) or nil
 				} or nil,
 
 				xhttpSettings = (server.transport == 'xhttp') and
@@ -86,7 +90,8 @@ local xray = {
 					serverName = server.tls_host,
 					publicKey = server.public_key,
 					shortId = server.short_id,
-					spiderX = server.spiderx
+					spiderX = server.spiderx,
+					finalMask = server.final_mask
 				} or nil,
 
 				grpcSettings = (server.transport == "grpc") and {
@@ -117,20 +122,6 @@ local xray = {
 					headers = (server.ws_host ~= nil) and {
 						Host = server.ws_host
 					} or nil,
-				} or nil,
-				httpSettings = (server.transport == "h2") and (server.tls == '1') and {
-					path = server.h2_path,
-					host = server.h2_host
-				} or ((server.transport == "h2") and (server.tls == '2') and {
-					read_idle_timeout = 60,
-					health_check_timeout = 20
-				} or nil),
-				quicSettings = (server.transport == "quic") and {
-					security = server.quic_security,
-					key = server.quic_key,
-					header = {
-						type = server.quic_guise
-					}
 				} or nil
 			},
 			tag = "proxy"
