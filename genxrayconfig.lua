@@ -53,7 +53,6 @@ local xray = {
 							{
 								id = server.vmess_id,
 								flow = server.flow,
-								level = tonumber(server.alter_id),
 								encryption = (server.security ~= '') and server.security or "none"
 							}
 						}
