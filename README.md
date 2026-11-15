@@ -4,7 +4,7 @@
 - Github Actions参考自[Ljzkirito/Actions-Padavan_Redmi-AC2100](https://github.com/Ljzkirito/Actions-Padavan_Redmi-AC2100)。
 - 编译目标为Redmi-AC2100
 - 默认登陆地址[192.168.2.1](http://192.168.5.1),登录名admin/admin
-- 开启插件`shadowsocks`,`xray-26.1.13`
+- 开启插件`shadowsocks`,`xray`
 
 ## 其它路由器型号也可以刷
 

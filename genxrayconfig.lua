@@ -53,7 +53,7 @@ local xray = {
 							{
 								id = server.vmess_id,
 								flow = server.flow,
-								encryption = (server.security ~= '') and server.security or "none"
+								encryption = (server.encryption ~= '') and server.encryption or "none"
 							}
 						}
 					}
@@ -62,17 +62,17 @@ local xray = {
 			-- 底层传输配置
 			streamSettings = {
 				network = server.transport,
-				security = (server.tls == '1') and "tls" or ((server.tls == '2') and "reality" or "none"),
-				tlsSettings = (server.tls == '1') and
+				security = (server.security == '1') and "tls" or ((server.security == '2') and "reality" or "none"),
+				tlsSettings = (server.security == '1') and
 				{
 					show = false,
 					allowInsecure = (server.insecure ~= "0") and true or false,
 					fingerprint = server.tls_fp,
 					serverName = server.tls_host,
-					echConfigList = server.ech_config_list,
-					pinnedPeerCertSha256 = server.fixed_certificate,
-					verifyPeerCertByName = server.verify_peer_cert_by_name,
-					alpn = (server.alpn and server.alpn ~= "") and cjson.decode(server.alpn) or nil
+					echConfigList = server.ech_list,
+					pinnedPeerCertSha256 = server.fixed_cert,
+					verifyPeerCertByName = server.vpcbn,
+					alpn = server.alpn
 				} or nil,
 
 				xhttpSettings = (server.transport == 'xhttp') and
@@ -82,7 +82,7 @@ local xray = {
 					mode = (server.mode ~= '' ) and server.mode or 'auto'
 				} or nil,
 
-				realitySettings = (server.tls == '2') and
+				realitySettings = (server.security == '2') and
 				{
 					show = false,
 					fingerprint = server.tls_fp,

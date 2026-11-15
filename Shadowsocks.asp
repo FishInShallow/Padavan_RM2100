@@ -787,7 +787,7 @@
 			document.getElementById("v2_fixed_certificate").value = '';
 			document.getElementById("v2_verify_peer_cert_by_name").value = '';
 			document.getElementById("v2_final_mask").value = '';
-			document.getElementById("v2_alpn").value = '["h2","http/1.1"]';
+			document.getElementById("v2_alpn").value = 'h2,http/1.1';
 			//sock5
 			document.getElementById("s5_password").value = '';
 			document.getElementById("s5_username").value = '';
@@ -820,7 +820,7 @@
 				document.getElementById("ssp_insecure").checked = document.getElementById("ssp_insecure").value != 0;
 				document.getElementById("v2_mux").value = getProperty(ss, 'mux', 0);
 				document.getElementById("v2_mux").checked = document.getElementById("v2_mux").value != 0;
-				document.getElementById("v2_security").value = getProperty(ss, 'security', '');
+				document.getElementById("v2_security").value = getProperty(ss, 'encryption', '');
 				document.getElementById("v2_vmess_id").value = getProperty(ss, 'vmess_id', '');
 				document.getElementById("v2_alter_id").value = getProperty(ss, 'alter_id', '');
 				document.getElementById("v2_transport").value = transport;
@@ -828,17 +828,17 @@
 				document.getElementById("v2_tcp_guise").value = getProperty(ss, 'tcp_guise', 'none');
 				document.getElementById("v2_http_host").value = getProperty(ss, 'http_host', '');
 				document.getElementById("v2_http_path").value = getProperty(ss, 'http_path', '');
-				document.getElementById("v2_tls").value = getProperty(ss, 'tls', '0');
+				document.getElementById("v2_tls").value = getProperty(ss, 'security', '0');
 				document.getElementById("v2_flow").value = getProperty(ss, 'flow_id', '0');
 				document.getElementById("v2_tls_fp").value = getProperty(ss, 'tls_fp_id', '0');
 				document.getElementById("v2_public_key").value = getProperty(ss, 'public_key', '');
 				document.getElementById("v2_short_id").value = getProperty(ss, 'short_id', '');
 				document.getElementById("v2_spiderx").value = getProperty(ss, 'spiderx', '');
-				document.getElementById("v2_ech_config_list").value = getProperty(ss, 'ech_config_list', '');
-				document.getElementById("v2_fixed_certificate").value = getProperty(ss, 'fixed_certificate', '');
-				document.getElementById("v2_verify_peer_cert_by_name").value = getProperty(ss, 'verify_peer_cert_by_name', '');
+				document.getElementById("v2_ech_config_list").value = getProperty(ss, 'ech_list', '');
+				document.getElementById("v2_fixed_certificate").value = getProperty(ss, 'fixed_cert', '');
+				document.getElementById("v2_verify_peer_cert_by_name").value = getProperty(ss, 'vpcbn', '');
 				document.getElementById("v2_final_mask").value = getProperty(ss, 'final_mask', '');
-				document.getElementById("v2_alpn").value = getProperty(ss, 'alpn', '["h2","http/1.1"]');
+				document.getElementById("v2_alpn").value = getProperty(ss, 'alpn', ["h2","http/1.1"]).toString();
 				//document.getElementById("v2_tls").checked =  document.getElementById("v2_tls").value != 0;
 				document.getElementById("ssp_tls_host").value = getProperty(ss, 'tls_host', '');
 				if (transport == "kcp") {
@@ -1428,27 +1428,27 @@
 					alias: document.getElementById("ssp_name").value,
 					server: document.getElementById("ssp_server").value,
 					server_port: document.getElementById("ssp_prot").value,
-					security: document.getElementById("v2_security").value,
+					encryption: document.getElementById("v2_security").value,
 					vmess_id: document.getElementById("v2_vmess_id").value,
 					transport: document.getElementById("v2_transport").value,
-					tls: document.getElementById("v2_tls").value,
+					security: document.getElementById("v2_tls").value,
 					flow: objFlow.options.selectedIndex == 0 ? "" : objFlow.options[objFlow.options.selectedIndex].text,
 					tls_fp: objFp.options.selectedIndex == 0 ? "" : objFp.options[objFp.options.selectedIndex].text,
-					flow_id: objFlow.value,
+					// flow_id: objFlow.value,
 					tls_fp_id: objFp.value,
-					tls_host: document.getElementById("ssp_tls_host").value,
-					coustom: "1"
+					// coustom: "1",
+					tls_host: document.getElementById("ssp_tls_host").value
 				}
 				if (type == "v2ray") {
 					DataObj.alter_id = document.getElementById("v2_alter_id").value;
 				}
 				if (document.getElementById("v2_tls").value == "1") {
 					DataObj.insecure = document.getElementById("ssp_insecure").value;
-					DataObj.mux = document.getElementById("v2_mux").value;
-					DataObj.ech_config_list = document.getElementById("v2_ech_config_list").value;
-					DataObj.fixed_certificate = document.getElementById("v2_fixed_certificate").value;
-					DataObj.verify_peer_cert_by_name = document.getElementById("v2_verify_peer_cert_by_name").value;
-					DataObj.alpn = document.getElementById("v2_alpn").value;
+					// DataObj.mux = document.getElementById("v2_mux").value;
+					DataObj.ech_list = document.getElementById("v2_ech_config_list").value;
+					DataObj.fixed_cert = document.getElementById("v2_fixed_certificate").value;
+					DataObj.vpcbn = document.getElementById("v2_verify_peer_cert_by_name").value;
+					DataObj.alpn = document.getElementById("v2_alpn").value.split(',');
 				}
 				if (document.getElementById("v2_tls").value == "2") {
 					DataObj.public_key = document.getElementById("v2_public_key").value;
@@ -2579,13 +2579,13 @@
 															<td>
 																<select name="v2_alpn" id="v2_alpn" class="input"
 																	style="width: 200px;">
-																	<option value='["h3"]'>h3</option>
-																	<option value='["h2"]'>h2</option>
-																	<option value='["http/1.1"]'>http/1.1</option>
-																	<option value='["h3","h2"]'>h3, h2</option>
-																	<option value='["h2","http/1.1"]' selected>h2,
+																	<option value="h3">h3</option>
+																	<option value="h2">h2</option>
+																	<option value="http/1.1">http/1.1</option>
+																	<option value="h3,h2">h3, h2</option>
+																	<option value="h2,http/1.1" selected>h2,
 																		http/1.1</option>
-																	<option value='["h3","h2","http/1.1"]'>h3, h2,
+																	<option value="h3,h2,http/1.1">h3, h2,
 																		http/1.1</option>
 																</select>
 															</td>
